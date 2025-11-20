@@ -3,8 +3,6 @@ import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 @st.cache_data(show_spinner=False)
 def train_and_evaluate(_X_train, _X_test, _y_train, _y_test, class_names):
@@ -29,14 +27,4 @@ def train_and_evaluate(_X_train, _X_test, _y_train, _y_test, class_names):
         cm = confusion_matrix(_y_test, y_pred)
         cm_df = pd.DataFrame(cm, index=class_names, columns=class_names)
 
-        # 繪製混淆矩陣圖
-        fig, ax = plt.subplots(figsize=(10, 7))
-        sns.heatmap(cm_df, annot=True, fmt='d', cmap='Blues', ax=ax)
-        ax.set_title('Confusion Matrix')
-        ax.set_xlabel('Predicted Label')
-        ax.set_ylabel('True Label')
-        plt.xticks(rotation=45)
-        plt.yticks(rotation=0)
-        st.pyplot(fig)
-
-    return metrics, model
+    return metrics, model, cm_df
